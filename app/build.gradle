@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.cundong.izhihu"
+        minSdkVersion 8
+        targetSdkVersion 22
+    }
+
+    sourceSets {
+        main {
+            java {
+                exclude '**/FavoriteActivity.java'
+                exclude '**/NewsDetailActivity.java'
+                exclude '**/OtherPrefsActivity.java'
+                exclude '**/task/ImageToGalleryTask.java'
+                exclude '**/NewsDetailImageActivity.java'
+                exclude '**/PrefsActivity.java'
+                exclude '**/NewsDetailFragment.java'
+                exclude '**/NewsDetailImageFragment.java'
+                exclude '**/NewsListFragment.java'
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile files('libs/jsoup-1.8.1.jar')
+    compile files('libs/umeng-analytics-v5.2.4.jar')
+    compile files('libs/universal-image-loader-1.9.2.jar')
+}
