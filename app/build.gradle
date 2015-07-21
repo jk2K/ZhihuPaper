@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.cundong.izhihu"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 22
     }
 
@@ -19,9 +19,7 @@ android {
                 exclude '**/task/ImageToGalleryTask.java'
                 exclude '**/NewsDetailImageActivity.java'
                 exclude '**/PrefsActivity.java'
-                exclude '**/NewsDetailFragment.java'
-                exclude '**/NewsDetailImageFragment.java'
-                exclude '**/NewsListFragment.java'
+                exclude '**/fragment/**'
             }
         }
     }
@@ -36,6 +34,10 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.facebook.fresco:fresco:0.5.3'
+    compile 'com.mcxiaoke.volley:library:1.0.17'
     compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile files('libs/jsoup-1.8.1.jar')
