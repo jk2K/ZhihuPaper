@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/normal_preferences">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="auto_offline_download"
+            android:summary="@string/auto_offline_download_summary"
+            android:title="@string/auto_offline_download" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="true"
+            android:key="no_image_mode"
+            android:summary="@string/no_image_mode_summary"
+            android:title="@string/no_image_mode" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/other_preferences">
+        <Preference
+            android:key="about"
+            android:title="@string/about" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

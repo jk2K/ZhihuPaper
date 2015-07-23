@@ -5,7 +5,7 @@ public final class Constants {
 	// 默认模板路径
 	public static final String TEMPLATE_DEF_URL = "www/template.html";
 	
-	public static final String GITGUB_PROJECT = "https://github.com/cundong/ZhihuPaper";
+	public static final String PROJECT_URL = "https://github.com/jk2K/ZhihuPaper";
 	
 	public static final class Url {
 

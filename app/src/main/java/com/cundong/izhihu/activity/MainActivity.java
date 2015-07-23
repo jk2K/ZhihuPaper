@@ -7,22 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.cundong.izhihu.Constants;
 import com.cundong.izhihu.R;
-//import com.cundong.izhihu.task.OfflineDownloadTask;
 import com.cundong.izhihu.ZhihuApplication;
 import com.cundong.izhihu.adapter.NewsAdapter;
 import com.cundong.izhihu.model.NewsListModel;
@@ -70,14 +66,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_download:
-                startOfflineDownload();
-                return true;
             case R.id.action_favorite:
 //                startActivity(new Intent(this, FavoriteActivity.class));
                 return true;
             case R.id.action_setting:
 
+                startActivity(new Intent(this, SettingActivity.class));
 //                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 //                    startActivityForResult(new Intent(this, PrefsActivity.class), REQUESTCODE_SETTING);
 //                } else {

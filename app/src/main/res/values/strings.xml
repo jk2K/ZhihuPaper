@@ -2,22 +2,20 @@
 
     <string name="app_name">新奇日报</string>
     <string name="app_sub_name">总有未知在身边</string>
-    <string name="app_author">Cundong</string>
-	<string name="offline_download">离线下载</string>
-	<string name="favorites">收藏夹</string>
-	<string name="preferences">偏好设置</string>
 
-    <string name="setting_noimage_nowifi_title">无图模式</string>
-    <string name="setting_noimage_nowifi_summary">2G/3G网络下不显示图片</string>
-    <string name="setting_dark_theme_title">夜间模式</string>
-    <string name="setting_dark_theme_summary">设置为夜间模式</string>
-    
-    <string name="setting_clearcache_title">清除缓存</string>
-    <string name="setting_aboutme">关于</string>
-    <string name="setting_aboutme_title">关于我们</string>
-    <string name="setting_aboutme_summary">关于我们</string>
-	<string name="setting_version_title">版本信息</string>
-	
+	<string name="night_mode">夜间模式</string>
+	<string name="favorites">收藏夹</string>
+	<string name="preferences">设置</string>
+
+	<string name="normal_preferences">常规</string>
+	<string name="auto_offline_download">自动离线下载</string>
+	<string name="auto_offline_download_summary">仅 Wi-Fi 下可用, 自动下载最新内容</string>
+    <string name="no_image_mode">无图模式</string>
+    <string name="no_image_mode_summary">2G/3G网络下不下载图片</string>
+
+    <string name="other_preferences">其他</string>
+    <string name="about">关于我们</string>
+
 	<string name="actionbar_title_fav">收藏夹</string>
 	<string name="actionbar_title_setting">偏好设置</string>
 	
@@ -36,7 +34,4 @@
 	<string name="action_bar_share_with">Share with…</string>
 	
 	<string name="listview_hotnews">今日热闻</string>
-	
-	<string name="setting_aboutme_version">%1$s\r\nV%2$s</string>
-	<string name="setting_aboutme_text">%1$s%2$s%3$sby %4$s</string>
 </resources>

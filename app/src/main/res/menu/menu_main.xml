@@ -2,10 +2,9 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_download"
-        android:icon="@drawable/ic_action_download"
-        app:showAsAction="ifRoom"
-        android:title="@string/offline_download"/>
+        android:id="@+id/action_night_mode"
+        app:showAsAction="never"
+        android:title="@string/night_mode"/>
     <item
         android:id="@+id/action_favorite"
         app:showAsAction="never"
