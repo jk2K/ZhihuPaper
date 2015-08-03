@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                                 mRecyclerView.setAdapter(mAdapter);
                             }
                             catch (JSONException e) {
-                                Log.d("jsonError", e.getMessage());
                                 Snackbar.make(getView(), "Unable to parse data", Snackbar.LENGTH_LONG)
                                         .show();
                             }

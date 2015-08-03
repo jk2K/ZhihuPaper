@@ -15,10 +15,8 @@ android {
             java {
                 exclude '**/FavoriteActivity.java'
                 exclude '**/NewsDetailActivity.java'
-                exclude '**/OtherPrefsActivity.java'
                 exclude '**/task/ImageToGalleryTask.java'
                 exclude '**/NewsDetailImageActivity.java'
-                exclude '**/PrefsActivity.java'
                 exclude '**/fragment/**'
             }
         }

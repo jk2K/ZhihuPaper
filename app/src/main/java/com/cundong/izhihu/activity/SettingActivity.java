@@ -1,13 +1,15 @@
 package com.cundong.izhihu.activity;
 
-import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -42,35 +44,27 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             if (preference.getKey().equals("about")) {
-                showAboutDialog();
+                MyDialogFragment myDialogFragment = new MyDialogFragment();
+                myDialogFragment.show(getFragmentManager(), "dialog_about");
                 return true;
             }
 
             return false;
         }
+    }
 
-        private void showAboutDialog() {
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.dialog_about);
-
-            TextView textView = (TextView) dialog.findViewById(R.id.dialog_text);
+    public static class MyDialogFragment extends DialogFragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            View v = inflater.inflate(R.layout.fragment_dialog, container, false);
+            TextView textView = (TextView) v.findViewById(R.id.dialog_text);
             textView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    dialog.dismiss();
+                    // 点击文本让关于我们的对话框消失
+                    dismiss();;
                 }
             });
-
-//            if (isVersion) {
-//                String data = getResources().getString(R.string.setting_aboutme_version);
-//
-//                data = String.format(data,
-//                        PhoneUtils.getApplicationName(this),
-//                        PhoneUtils.getPackageInfo(this).versionName);
-//
-//                textView.setText(data);
-//            } else {
 
             String title = getResources().getString(R.string.app_name) + "<br>";
             String subTitle = getResources().getString(R.string.app_sub_name) + "<br>";
@@ -80,7 +74,7 @@ public class SettingActivity extends AppCompatActivity {
             textView.setText(Html.fromHtml(data));
             textView.setMovementMethod(LinkMovementMethod.getInstance());
 
-            dialog.show();
+            return v;
         }
     }
 }
