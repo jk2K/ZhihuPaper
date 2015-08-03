@@ -23,7 +23,7 @@ import com.cundong.izhihu.Constants;
 import com.cundong.izhihu.R;
 import com.cundong.izhihu.ZhihuApplication;
 import com.cundong.izhihu.activity.NewsDetailActivity;
-import com.cundong.izhihu.adapter.NewsAdapter;
+import com.cundong.izhihu.adapter.NewsAdapterOld;
 import com.cundong.izhihu.db.NewsDataSource;
 import com.cundong.izhihu.entity.NewsListEntity;
 import com.cundong.izhihu.entity.NewsListEntity.NewsEntity;
@@ -39,7 +39,7 @@ public class NewsListFragment extends BaseFragment implements ResponseListener, 
 
 	private ListView mListView;
 	private ProgressBar mProgressBar;
-	private NewsAdapter mAdapter = null;
+	private NewsAdapterOld mAdapter = null;
 	
 	private ArrayList<NewsEntity> mNewsList = null;
 	
@@ -104,7 +104,7 @@ public class NewsListFragment extends BaseFragment implements ResponseListener, 
 
 	private void setAdapter(ArrayList<NewsEntity> newsList) {
 		if (mAdapter == null) {
-			mAdapter = new NewsAdapter(getActivity(), newsList);
+			mAdapter = new NewsAdapterOld(getActivity(), newsList);
 			mListView.setAdapter(mAdapter);
 		} else {
 			mAdapter.updateData(newsList);

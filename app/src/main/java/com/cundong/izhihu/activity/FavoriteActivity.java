@@ -16,7 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.cundong.izhihu.R;
 import com.cundong.izhihu.ZhihuApplication;
-import com.cundong.izhihu.adapter.NewsAdapter;
+import com.cundong.izhihu.adapter.NewsAdapterOld;
 import com.cundong.izhihu.entity.NewsListEntity.NewsEntity;
 import com.cundong.izhihu.task.MyAsyncTask;
 
@@ -31,7 +31,7 @@ public class FavoriteActivity extends BaseActivity {
 	private static final int REQUESTCODE_DETAIL = 8010;
 	
 	private ListView mListView;
-	private NewsAdapter mAdapter = null;
+	private NewsAdapterOld mAdapter = null;
 	private ActionMode mActionMode;
 	
 	private ArrayList<NewsEntity> mNewsList = null;
@@ -195,7 +195,7 @@ public class FavoriteActivity extends BaseActivity {
 				mNewsList = result;
 				
 				if (mAdapter == null) {
-					mAdapter = new NewsAdapter(mInstance, mNewsList);
+					mAdapter = new NewsAdapterOld(mInstance, mNewsList);
 					mAdapter.setFavoriteFlag(true);
 					mListView.setAdapter(mAdapter);
 				} else {
