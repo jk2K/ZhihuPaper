@@ -1,5 +1,7 @@
 package com.cundong.izhihu.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cundong.izhihu.R;
+import com.cundong.izhihu.activity.NewsDetailActivity;
 import com.cundong.izhihu.model.NewsListModel;
 import com.cundong.izhihu.model.NewsModel;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -16,25 +19,15 @@ import com.facebook.drawee.view.SimpleDraweeView;
  */
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private NewsListModel newsListModel;
-    public static enum ITEM_TYPE {
+    private Context mContext;
+    public enum ITEM_TYPE {
         ITEM_TYPE_DATE,
         ITEM_TYPE_NEWS
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView newsTitle;
-        public SimpleDraweeView newsImage;
-
-        public ViewHolder(View v) {
-            super(v);
-
-            newsTitle = (TextView) v.findViewById(R.id.list_news_title);
-            newsImage = (SimpleDraweeView) v.findViewById(R.id.list_news_image);
-        }
-    }
-
-    public NewsAdapter(NewsListModel newsListModel) {
+    public NewsAdapter(NewsListModel newsListModel, Context context) {
         this.newsListModel = newsListModel;
+        this.mContext = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -77,7 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return newsListModel.getStories().size() + 1;
     }
 
-    public static class DateViewHolder extends RecyclerView.ViewHolder {
+    public class DateViewHolder extends RecyclerView.ViewHolder {
         public TextView dateTextView;
 
         public DateViewHolder(View v) {
@@ -87,15 +80,25 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public static class NewsViewHolder extends RecyclerView.ViewHolder {
+    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView titleTextView;
         public SimpleDraweeView imageSimpleDraweeView;
 
         public NewsViewHolder(View v) {
             super(v);
 
+            v.setOnClickListener(this);
+
             titleTextView = (TextView) v.findViewById(R.id.list_news_title);
             imageSimpleDraweeView = (SimpleDraweeView) v.findViewById(R.id.list_news_image);
+        }
+
+        public void onClick(View view) {
+            int position = getLayoutPosition();
+            NewsModel newsModel = newsListModel.getStories().get(position);
+            Intent intent = new Intent(mContext, NewsDetailActivity.class);
+            intent.putExtra("newsId", newsModel.getId());
+            mContext.startActivity(intent);
         }
     }
 }

@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 NewsListModel newsListModels = parse(jsonObject);
 
-                                mAdapter = new NewsAdapter(newsListModels);
+                                mAdapter = new NewsAdapter(newsListModels, getActivity());
                                 mRecyclerView.setAdapter(mAdapter);
                             }
                             catch (JSONException e) {

@@ -16,7 +16,7 @@
 # and specify the fully qualified class name to the JavaScript interface
 # class:
 
--keepclassmembers class com.cundong.izhihu.fragment.NewsDetailFragment$JavaScriptObject {
+-keepclassmembers class com.cundong.izhihu.fragment.NewsDetailFragmentOld$JavaScriptObject {
    public *;
 }
 

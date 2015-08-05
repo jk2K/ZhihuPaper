@@ -14,10 +14,10 @@ android {
         main {
             java {
                 exclude '**/FavoriteActivity.java'
-                exclude '**/NewsDetailActivity.java'
+                exclude '**/NewsDetailActivityOld.java'
                 exclude '**/task/ImageToGalleryTask.java'
                 exclude '**/NewsDetailImageActivity.java'
-                exclude '**/fragment/**'
+                exclude '**/fragment/**Old.java'
             }
         }
     }
@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.3'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.facebook.fresco:fresco:0.5.3'
     compile 'com.mcxiaoke.volley:library:1.0.17'
