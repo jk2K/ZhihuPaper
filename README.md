@@ -4,36 +4,19 @@
 
 ## 介绍
 
-如你所见，这是一个知乎日报客户端，我给它起名为：新奇日报。
+对 [@cundong](https://github.com/cundong/ZhihuPaper) 进行重构, 大量的采用新技术, 遵循`Material Design`风格
+适配了 MX4 Pro, 某些效果只有 Android 5.0 以上的系统才有(比如状态栏颜色)
 
-因为有大把的时间需要在地铁上度过，而我又喜欢知乎日报中的内容，于是就想自己也开发一个知乎日报的客户端，没有让人皱眉的启动页广告，没有应用推荐，没有后台的消息推送，只提供最初的阅读功能。
+通过这个项目, 你可能可以学到的内容有
 
-经过了一段时间的开发，最初的设想已经全部完成：
-
-* 最新新闻、过往的新闻的展示
-* 下拉刷新数据
-* 新闻正文的展示（WebView的各种使用）
-* 正文中图片查看、保存至相册
-* 离线下载
-* 夜间模式
-* 收藏夹
-* 已读数据缓存
-* 内容分享至SNS
-
-由于时间和精力的关系，可能会有一些适配问题未能来得及解决，而且不可避免的会存在BUG，希望你能够Fork一个分支出来，和我一同开发。
-
-本程序依赖：
-
-* [SmoothProgressBar][2]
-* [PhotoView][5]
-
-参考：
-* [ZhihuDailyPurify][6]
-
-使用Ant批量打渠道包：
-* [Ant 批量多渠道打包][7]
-
-部分资源文件来源于知乎日报的官方客户端，其他图片资源获取自网络。另外，程序中所使用的所有Api，都是通过破解知乎日报官方客户端得来，最终解释权归知乎所有。
+* RecyclerView 的使用
+* SwipeRefreshLayout 下拉刷新
+* 使用最新的 Material Design 兼容库
+* PreferenceFragment 的使用
+* DialogFragment 的使用
+* Volley 如何进行网络请求
+* fresco 如何加载图片
+* gson 如何将 JSON 转化为 Model
 
 ## 体验
 
@@ -57,10 +40,9 @@
 
 ![截屏][11]
 
-## 关于我
+## Contributors
 
-* Blog: [http://my.oschina.net/liucundong/blog][12]
-* Mail: cundong.liu#gmail.com
+* [jk2K](https://github.com/jk2K/ZhihuPaper)
 
 ## License
 
