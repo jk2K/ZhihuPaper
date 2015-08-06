@@ -13,12 +13,7 @@ android {
     sourceSets {
         main {
             java {
-                exclude '**/BaseActivity.java'
                 exclude '**/FavoriteActivity.java'
-                exclude '**/NewsDetailActivityOld.java'
-                exclude '**/task/ImageToGalleryTask.java'
-                exclude '**/NewsDetailImageActivity.java'
-                exclude '**/fragment/**Old.java'
             }
         }
     }

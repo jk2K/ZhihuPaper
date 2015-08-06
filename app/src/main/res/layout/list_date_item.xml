@@ -6,8 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4.0dip"
-        android:background="?listViewBackground" >
+        android:layout_margin="4.0dip">
 
         <TextView
             android:id="@+id/date_text"
@@ -20,9 +19,7 @@
             android:gravity="center_vertical"
             android:paddingBottom="8dip"
             android:paddingTop="8dip"
-            android:textColor="?listItemDateTextColor"
-            android:textIsSelectable="false"
-            android:textSize="@dimen/text_size_small" />
+            android:textIsSelectable="false" />
     </RelativeLayout>
 
 </FrameLayout>

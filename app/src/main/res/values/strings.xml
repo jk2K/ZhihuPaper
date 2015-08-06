@@ -16,9 +16,6 @@
     <string name="other_preferences">其他</string>
     <string name="about">关于我们</string>
 
-	<string name="actionbar_title_fav">收藏夹</string>
-	<string name="actionbar_title_setting">偏好设置</string>
-	
 	<string name="actionbar_item_fav_cancel">取消收藏</string>
 	<string name="actionbar_item_fav_add">收藏</string>
 	
