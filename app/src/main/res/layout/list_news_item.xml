@@ -6,6 +6,7 @@
     android:orientation="horizontal">
 
     <com.facebook.drawee.view.SimpleDraweeView
+        fresco:placeholderImage="@drawable/image_placeholder"
         android:id="@+id/list_news_image"
         android:layout_width="100dp"
         android:layout_height="100dp" />

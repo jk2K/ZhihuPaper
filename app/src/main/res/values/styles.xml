@@ -1,11 +1,10 @@
 <resources>
-
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-    </style>
-
     <!-- Application theme. -->
 
-    <style name="Theme.Daily.AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Daily.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
         <item name="actionBarBackground">@color/ab_background_light</item>
         <item name="homeListHeaderItemBackground">@color/home_list_header_bg_light</item>
         <item name="listItemBackground">@drawable/card_light</item>

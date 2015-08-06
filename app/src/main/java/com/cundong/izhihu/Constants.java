@@ -16,7 +16,7 @@ public final class Constants {
 		public static final String URL_DETAIL = "http://news-at.zhihu.com/api/4/news/";
 
 		// 获取过往新闻
-		public static final String URLDEFORE = "http://news.at.zhihu.com/api/4/news/before/";
+		public static final String URL_BEFORE = "http://news.at.zhihu.com/api/4/news/before/";
 	}
 	
 	public static final int NEWS_LIST = 1;

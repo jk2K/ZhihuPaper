@@ -54,8 +54,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((NewsViewHolder) holder).titleTextView.setText(newsModel.getTitle());
 
             // 设置新闻图片
-            String imageUrl = newsModel.getImages().get(0);
-            ((NewsViewHolder) holder).imageSimpleDraweeView.setImageURI(Uri.parse(imageUrl));
+            // 新闻图片有可能没有
+            if (newsModel.getImages() != null) {
+                String imageUrl = newsModel.getImages().get(0);
+                ((NewsViewHolder) holder).imageSimpleDraweeView.setImageURI(Uri.parse(imageUrl));
+            }
         }
     }
 
@@ -95,7 +98,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void onClick(View view) {
             int position = getLayoutPosition();
-            NewsModel newsModel = newsListModel.getStories().get(position);
+            NewsModel newsModel = newsListModel.getStories().get(position - 1);
             Intent intent = new Intent(mContext, NewsDetailActivity.class);
             intent.putExtra("newsId", newsModel.getId());
             mContext.startActivity(intent);

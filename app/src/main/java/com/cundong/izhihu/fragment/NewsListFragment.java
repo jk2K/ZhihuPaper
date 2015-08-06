@@ -1,365 +1,152 @@
 package com.cundong.izhihu.fragment;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.cundong.izhihu.Constants;
 import com.cundong.izhihu.R;
 import com.cundong.izhihu.ZhihuApplication;
-import com.cundong.izhihu.activity.NewsDetailActivity;
-import com.cundong.izhihu.adapter.NewsAdapterOld;
-import com.cundong.izhihu.db.NewsDataSource;
-import com.cundong.izhihu.entity.NewsListEntity;
-import com.cundong.izhihu.entity.NewsListEntity.NewsEntity;
-import com.cundong.izhihu.task.BaseGetNewsTask;
-import com.cundong.izhihu.task.BaseGetNewsTask.ResponseListener;
-import com.cundong.izhihu.task.GetLatestNewsTask;
-import com.cundong.izhihu.task.MyAsyncTask;
-import com.cundong.izhihu.util.GsonUtils;
-import com.cundong.izhihu.util.ListUtils;
-import com.cundong.izhihu.util.ZhihuUtils;
+import com.cundong.izhihu.adapter.NewsAdapter;
+import com.cundong.izhihu.model.NewsListModel;
+import com.google.gson.Gson;
 
-public class NewsListFragment extends BaseFragment implements ResponseListener, OnItemClickListener {
+import org.json.JSONObject;
 
-	private ListView mListView;
-	private ProgressBar mProgressBar;
-	private NewsAdapterOld mAdapter = null;
-	
-	private ArrayList<NewsEntity> mNewsList = null;
-	
-	//上次listView滚动到最下方时，itemId
-	private int mListViewPreLast = 0;
-	private String mCurrentDate = null;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		new LoadCacheNewsTask().executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-		
-		new GetLatestNewsTask(getActivity(), this).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		
-		View view = inflater.inflate(R.layout.fragment_main, container, false);
-		
-		mPullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.ptr_layout);
-		mListView = (ListView) view.findViewById(R.id.list);
-		mListView.setOnItemClickListener(this);
-		mProgressBar = (ProgressBar) view.findViewById(R.id.progress);
-		
-		return view;
-	}
-	
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		
-		super.onActivityCreated(savedInstanceState);
-		
-		mListView.setOnScrollListener(new OnScrollListener() {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				
-				final int lastItem = firstVisibleItem + visibleItemCount;
-				
-				if (lastItem == totalItemCount) {
-					if (mListViewPreLast != lastItem) { // to avoid multiple calls for
-						
-						mCurrentDate = ZhihuUtils.getBeforeDate(mCurrentDate);
-						
-						new GetMoreNewsTask(getActivity(), null).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR, mCurrentDate);
-						
-						mListViewPreLast = lastItem;
-					}
-				}
-			}
-			
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				
-			}
-		});
-	}
+/**
+ * Created by lee on 15/8/5.
+ */
+public class NewsListFragment extends Fragment {
+    private NewsAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String mCurrentDate;
 
-	private void setAdapter(ArrayList<NewsEntity> newsList) {
-		if (mAdapter == null) {
-			mAdapter = new NewsAdapterOld(getActivity(), newsList);
-			mListView.setAdapter(mAdapter);
-		} else {
-			mAdapter.updateData(newsList);
-		}
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_news_list, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        // 下拉刷新
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        fetch();
+                    }
+                }
+        );
 
-	private void setListShown(boolean isListViewShown) {
-		mListView.setVisibility(isListViewShown ? View.VISIBLE : View.GONE);
-		mProgressBar.setVisibility(isListViewShown ? View.GONE : View.VISIBLE);
-	}
-	
-	//读取缓存中的最新新闻
-	private class LoadCacheNewsTask extends MyAsyncTask<String, Void, NewsListEntity> {
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.newsList);
+        mRecyclerView.setHasFixedSize(true);
+        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        // 上拉加载
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-		@Override
-		protected NewsListEntity doInBackground(String... params) {
+                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+                int totalItemCount = mLayoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
+                    loadMore();
+//                    if(isLoadingMore){
+//                        Log.d(TAG,"ignore manually update!");
+//                    } else{
+//                        loadPage();//这里多线程也要手动控制isLoadingMore
+//                        isLoadingMore = false;
+//                    }
+                }
+            }
+        });
 
-			NewsListEntity latestNewsEntity = ZhihuApplication.getDataSource().getLatestNews();
-			
-			if (latestNewsEntity != null) {
-				mCurrentDate = latestNewsEntity.date;
-				ZhihuUtils.setReadStatus4NewsList(latestNewsEntity.stories);
-			}
-			
-			return latestNewsEntity;
-		}
+        return rootView;
+    }
 
-		@Override
-		protected void onPostExecute(NewsListEntity result) {
-			super.onPostExecute(result);
-			
-			if(!isAdded())
-				return;
-			
-			if (result != null && !ListUtils.isEmpty(result.stories)) {
-				
-				NewsEntity tagNewsEntity = new NewsEntity();
-				tagNewsEntity.isTag = true;
-				tagNewsEntity.title = result.date;
-				
-				mNewsList = new ArrayList<NewsEntity>();
-				mNewsList.add(tagNewsEntity);
-				mNewsList.addAll(result.stories);
-				
-				setAdapter(mNewsList);
-			}
-		}
-	}
-	
-	//下载过往的新闻
-	private class GetMoreNewsTask extends BaseGetNewsTask {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-		public GetMoreNewsTask(Context context, ResponseListener listener) {
-			super(context, listener);
-		}
-		
-		@Override
-		protected NewsListEntity doInBackground(String... params) {
-			
-			if (params.length == 0)
-				return null;
-			
-			String theKey = params[0];
-			
-			String oldContent = ((NewsDataSource) getDataSource()).getContent(theKey);
-			
-			NewsListEntity newsListEntity = null;
-			
-			if (!TextUtils.isEmpty(oldContent)) {
-				newsListEntity = (NewsListEntity) GsonUtils.getEntity(oldContent, NewsListEntity.class);
-				if (newsListEntity != null) {
-					ZhihuUtils.setReadStatus4NewsList(newsListEntity.stories);
-				}
-				return newsListEntity;
-			} else {
-				
-				String newContent = null;
-				
-				try {
-					newContent = getUrl(Constants.Url.URLDEFORE + ZhihuUtils.getAddedDate(theKey));
-	
-					newsListEntity = (NewsListEntity)GsonUtils.getEntity(newContent, NewsListEntity.class);
-					
-					isRefreshSuccess = !ListUtils.isEmpty(newsListEntity.stories);
-				} catch (IOException e) {
-					e.printStackTrace();
-					
-					this.isRefreshSuccess = false;
-					this.mException = e;
-				} catch (Exception e) {
-					e.printStackTrace();
+        fetch();
+    }
 
-					this.isRefreshSuccess = false;
-					this.mException = e;
-				}
-				
-				isContentSame = checkIsContentSame(oldContent, newContent);
-				
-				if (isRefreshSuccess && !isContentSame) {
-					((NewsDataSource) getDataSource()).insertOrUpdateNewsList(Constants.NEWS_LIST, theKey, newContent);
-				}
-				
-				if (newsListEntity != null) {
-					ZhihuUtils.setReadStatus4NewsList(newsListEntity.stories);
-				}
-				
-				return newsListEntity;
-			}
-		}
+    private void fetch() {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Constants.Url.URL_LATEST,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        // 填充数据
+                        Gson gson = new Gson();
+                        NewsListModel newsListModel = gson.fromJson(jsonObject.toString(), NewsListModel.class);
+                        mCurrentDate = newsListModel.getDate();
+                        mAdapter = new NewsAdapter(newsListModel, getActivity());
+                        mRecyclerView.setAdapter(mAdapter);
 
-		@Override
-		protected void onPostExecute(NewsListEntity result) {
-			super.onPostExecute(result);
+                        // 停止刷新
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Snackbar.make(getView(), "Unable to fetch data", Snackbar.LENGTH_SHORT)
+                                .show();
+                        // 停止刷新
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
+        ZhihuApplication.getInstance().getRequestQueue().add(request);
+    }
 
-			if(!isAdded())
-				return;
-			
-			setListShown(true);
+    private void loadMore() {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Constants.Url.URL_BEFORE + mCurrentDate,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        // 填充数据
+                        Gson gson = new Gson();
+                        NewsListModel newsListModel = gson.fromJson(jsonObject.toString(), NewsListModel.class);
+                        mAdapter = new NewsAdapter(newsListModel, getActivity());
+                        mCurrentDate = newsListModel.getDate();
+                        mRecyclerView.setAdapter(mAdapter);
 
-			mListViewPreLast = 0;
-			
-			if (mNewsList == null) {
-				mNewsList = new ArrayList<NewsEntity>();
-			}
-			
-			if (result != null && !ListUtils.isEmpty(result.stories)) {
-				
-				NewsEntity tagNewsEntity = new NewsEntity();
-				tagNewsEntity.isTag = true;
-				tagNewsEntity.title = result.date;
-				mNewsList.add(tagNewsEntity);
-				mNewsList.addAll(result.stories);
-				
-				setAdapter(mNewsList);
-			}
-		}
-	}
-	
-	@Override
-	public void onPreExecute() {
-		
-	}
-
-	@Override
-	public void onProgressUpdate(String value) {
-		
-	}
-	
-	@Override
-	public void onPostExecute(NewsListEntity result) {
-		if(!isAdded())
-			return;
-		
-		// Notify PullToRefreshLayout that the refresh has finished
-		mPullToRefreshLayout.setRefreshComplete();
-					
-		if (getView() != null) {
-			// Show the list again
-			setListShown(true);
-		}
-		
-		if (result != null) {
-			mNewsList = new ArrayList<NewsEntity>();
-
-			NewsEntity tagNewsEntity = new NewsEntity();
-			tagNewsEntity.isTag = true;
-			tagNewsEntity.title = result.date;
-			mNewsList.add(tagNewsEntity);
-
-			mNewsList.addAll(result.stories);
-
-			mCurrentDate = result.date;
-
-			setAdapter(mNewsList);
-		}
-	}
-	
-	@Override
-	public void onFail(Exception e) {
-		
-		if (getView() != null) {
-			// Show the list again
-			setListShown(true);
-		}
-		
-		dealException(e);
-	}
-
-	@Override
-	protected void doRefresh() {
-		
-		// Hide the list
-		setListShown( mNewsList==null ||mNewsList.isEmpty() ? false : true );
-		
-		new GetLatestNewsTask(getActivity(), this).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
-		NewsEntity newsEntity = mNewsList != null ? mNewsList.get(position) : null;
-
-		if (newsEntity == null)
-			return;
-
-		Intent intent = new Intent();
-		intent.putExtra("id", newsEntity.id);
-		intent.putExtra("newsEntity", newsEntity);
-
-		intent.setClass(getActivity(), NewsDetailActivity.class);
-		startActivity(intent);
-		
-		new SetReadFlagTask(newsEntity).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-	}
-	
-	public void updateList() {
-		new LoadCacheNewsTask().executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
-	}
-
-	@Override
-	protected void onRestoreState(Bundle savedInstanceState) {
-
-	}
-
-	@Override
-	protected void onSaveState(Bundle outState) {
-
-	}
-
-	@Override
-	protected void onFirstTimeLaunched() {
-
-	}
-	
-	private class SetReadFlagTask extends MyAsyncTask<String, Void, Boolean> {
-
-		private NewsEntity mNewsEntity;
-
-		public SetReadFlagTask(NewsEntity newsEntity) {
-			mNewsEntity = newsEntity;
-		}
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			return ZhihuApplication.getNewsReadDataSource().readNews(String.valueOf(mNewsEntity.id));
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			super.onPostExecute(result);
-
-			if (result) {
-				ZhihuUtils.setReadStatus4NewsEntity(mNewsList, mNewsEntity);
-				mAdapter.updateData(mNewsList);
-			}
-		}
-	}
+                        // 停止刷新
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Snackbar.make(getView(), "Unable to fetch data", Snackbar.LENGTH_SHORT)
+                                .show();
+                        // 停止刷新
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
+        ZhihuApplication.getInstance().getRequestQueue().add(request);
+    }
 }

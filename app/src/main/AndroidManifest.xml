@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Daily.AppTheme.Light">
+        android:theme="@style/Theme.Daily.Light">
         <activity
             android:name=".activity.MainActivity"
             android:alwaysRetainTaskState="true"
