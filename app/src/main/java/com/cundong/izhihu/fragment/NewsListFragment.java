@@ -23,10 +23,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import io.realm.Realm;
 
 /**
  * Created by lee on 15/8/5.
@@ -35,7 +32,15 @@ public class NewsListFragment extends Fragment {
     private NewsAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private Realm realm;
     private String mCurrentDate;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        realm = Realm.getInstance(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,6 +100,7 @@ public class NewsListFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
+                        Log.d("lfdjlas", "onResponse 11");
                         // 填充数据
                         Gson gson = new Gson();
                         NewsListModel newsListModel = gson.fromJson(jsonObject.toString(), NewsListModel.class);

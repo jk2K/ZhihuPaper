@@ -1,12 +1,14 @@
 package com.cundong.izhihu.fragment;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -15,6 +17,9 @@ import com.cundong.izhihu.Constants;
 import com.cundong.izhihu.R;
 import com.cundong.izhihu.ZhihuApplication;
 import com.cundong.izhihu.model.NewsDetailModel;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -26,8 +31,8 @@ import java.io.InputStreamReader;
 /**
  * Created by lee on 15/8/4.
  */
-public class NewsDetailFragment extends Fragment{
-    private WebView mWebView;
+public class NewsDetailFragment extends Fragment {
+    private ObservableWebView mWebView;
     private long mNewsId;
 
     @Override
@@ -41,9 +46,51 @@ public class NewsDetailFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        mWebView = (WebView) rootView.findViewById(R.id.webView);
+        mWebView = (ObservableWebView) rootView.findViewById(R.id.webView);
+        mWebView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
+            @Override
+            public void onScrollChanged(int i, boolean b, boolean b1) {
+            }
+
+            @Override
+            public void onDownMotionEvent() {
+            }
+
+            @Override
+            public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+                if (scrollState == ScrollState.UP) {
+                    enterOrNotFullScreen(true);
+                } else if (scrollState == ScrollState.DOWN) {
+                    enterOrNotFullScreen(false);
+                }
+            }
+        });
 
         return rootView;
+    }
+
+    @TargetApi(19)
+    /**
+     * 进不进入全屏模式, 全屏模式可以让用户专注于内容, 避免干扰
+     * @param Boolean fullScreen
+     */
+    private void enterOrNotFullScreen(Boolean fullScreen) {
+        if (Build.VERSION.SDK_INT >= 19) {
+            if (fullScreen) {
+                mWebView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+            } else {
+                mWebView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            }
+        }
     }
 
     @Override
