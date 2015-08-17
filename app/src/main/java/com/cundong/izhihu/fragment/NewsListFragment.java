@@ -18,12 +18,15 @@ import com.cundong.izhihu.Constants;
 import com.cundong.izhihu.R;
 import com.cundong.izhihu.ZhihuApplication;
 import com.cundong.izhihu.adapter.NewsAdapter;
-import com.cundong.izhihu.model.NewsListModel;
+import com.cundong.izhihu.model.NewsList;
+import com.cundong.izhihu.model.RealmJsonData;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * Created by lee on 15/8/5.
@@ -34,12 +37,17 @@ public class NewsListFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Realm realm;
     private String mCurrentDate;
+    private boolean loading;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        realm = Realm.getInstance(getActivity());
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(getActivity()).build();
+
+        // Clear the realm from last time, only for debug
+//        Realm.deleteRealm(realmConfiguration);
+        realm = Realm.getInstance(realmConfiguration);
     }
 
     @Override
@@ -72,13 +80,11 @@ public class NewsListFragment extends Fragment {
                 //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
                 // dy>0 表示向下滑动
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
-                    loadMore();
-//                    if(isLoadingMore){
-//                        Log.d(TAG,"ignore manually update!");
-//                    } else{
-//                        loadPage();//这里多线程也要手动控制isLoadingMore
-//                        isLoadingMore = false;
-//                    }
+                    if (!loading) {
+                        // 避免发起多次加载更多请求
+                        loading = true;
+                        loadMore();
+                    }
                 }
             }
         });
@@ -100,12 +106,11 @@ public class NewsListFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.d("lfdjlas", "onResponse 11");
                         // 填充数据
                         Gson gson = new Gson();
-                        NewsListModel newsListModel = gson.fromJson(jsonObject.toString(), NewsListModel.class);
-                        mCurrentDate = newsListModel.getDate();
-                        mAdapter = new NewsAdapter(newsListModel, getActivity());
+                        NewsList newsList = gson.fromJson(jsonObject.toString(), NewsList.class);
+                        mCurrentDate = newsList.getDate();
+                        mAdapter = new NewsAdapter(newsList, getActivity());
                         mRecyclerView.setAdapter(mAdapter);
 
                         // 停止刷新
@@ -126,33 +131,63 @@ public class NewsListFragment extends Fragment {
     }
 
     private void loadMore() {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Constants.Url.URL_BEFORE + mCurrentDate,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        // 填充数据
-                        Gson gson = new Gson();
-                        NewsListModel newsListModel = gson.fromJson(jsonObject.toString(), NewsListModel.class);
-                        mAdapter = new NewsAdapter(newsListModel, getActivity());
-                        mCurrentDate = newsListModel.getDate();
-                        mRecyclerView.setAdapter(mAdapter);
+        // 读取json字符串
+        RealmResults<RealmJsonData> result = realm.where(RealmJsonData.class)
+                .equalTo("date", mCurrentDate)
+                .findAll();
+        if (result.size() == 0) {
+//            Log.d("test", mCurrentDate + "发起请求");
+            // 没有缓存过
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Constants.Url.URL_BEFORE + mCurrentDate,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            // json 字符串
+                            String jsonString = jsonObject.toString();
 
-                        // 停止刷新
-                        mSwipeRefreshLayout.setRefreshing(false);
+                            // 缓存 json 字符串
+                            realm.beginTransaction();
+                            RealmJsonData realmJsonData = realm.createObject(RealmJsonData.class); // Create a new object
+                            realmJsonData.setDate(mCurrentDate);
+                            realmJsonData.setJsonString(jsonString);
+                            realm.commitTransaction();
+
+                            // 填充数据
+                            setAdapter(jsonString);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Snackbar.make(getView(), "Unable to fetch data", Snackbar.LENGTH_SHORT)
+                                    .show();
+                            // 停止刷新
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Snackbar.make(getView(), "Unable to fetch data", Snackbar.LENGTH_SHORT)
-                                .show();
-                        // 停止刷新
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                }
-        );
-        ZhihuApplication.getInstance().getRequestQueue().add(request);
+            );
+            ZhihuApplication.getInstance().getRequestQueue().add(request);
+        } else {
+            // 有json缓存
+//            Log.d("test", "加载缓存");
+//            Log.d("test", result.toString());
+            // 填充数据
+            setAdapter(result.get(0).getJsonString());
+        }
+    }
+
+    private void setAdapter(String jsonString)
+    {
+        Gson gson = new Gson();
+        NewsList newsList = gson.fromJson(jsonString, NewsList.class);
+        mAdapter = new NewsAdapter(newsList, getActivity());
+        mCurrentDate = newsList.getDate();
+        mRecyclerView.setAdapter(mAdapter);
+
+        // 停止刷新
+        mSwipeRefreshLayout.setRefreshing(false);
+        loading = false;
     }
 }

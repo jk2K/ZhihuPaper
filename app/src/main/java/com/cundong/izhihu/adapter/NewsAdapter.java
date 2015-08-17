@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.cundong.izhihu.R;
 import com.cundong.izhihu.activity.NewsDetailActivity;
-import com.cundong.izhihu.model.NewsListModel;
+import com.cundong.izhihu.model.NewsList;
 import com.cundong.izhihu.model.NewsModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -18,15 +18,15 @@ import com.facebook.drawee.view.SimpleDraweeView;
  * Created by lee on 15/7/17.
  */
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private NewsListModel newsListModel;
+    private NewsList newsList;
     private Context mContext;
     public enum ITEM_TYPE {
         ITEM_TYPE_DATE,
         ITEM_TYPE_NEWS
     }
 
-    public NewsAdapter(NewsListModel newsListModel, Context context) {
-        this.newsListModel = newsListModel;
+    public NewsAdapter(NewsList newsList, Context context) {
+        this.newsList = newsList;
         this.mContext = context;
     }
 
@@ -44,11 +44,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof DateViewHolder) {
-            ((DateViewHolder) holder).dateTextView.setText(newsListModel.getDate());
+            ((DateViewHolder) holder).dateTextView.setText(newsList.getDate());
         } else {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            NewsModel newsModel = newsListModel.getStories().get(position - 1);
+            NewsModel newsModel = newsList.getStories().get(position - 1);
 
             // 设置新闻标题
             ((NewsViewHolder) holder).titleTextView.setText(newsModel.getTitle());
@@ -70,7 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return newsListModel.getStories().size() + 1;
+        return newsList.getStories().size() + 1;
     }
 
     public class DateViewHolder extends RecyclerView.ViewHolder {
@@ -98,7 +98,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void onClick(View view) {
             int position = getLayoutPosition();
-            NewsModel newsModel = newsListModel.getStories().get(position - 1);
+            NewsModel newsModel = newsList.getStories().get(position - 1);
             Intent intent = new Intent(mContext, NewsDetailActivity.class);
             intent.putExtra("newsId", newsModel.getId());
             mContext.startActivity(intent);
