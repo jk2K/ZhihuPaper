@@ -30,3 +30,4 @@ proguard/
 
 # Intellij project files
 .idea/
+*.iml
