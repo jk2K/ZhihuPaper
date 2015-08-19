@@ -29,7 +29,6 @@ android {
 dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'io.realm:realm-android:0.82.1'
-    compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
     compile 'com.android.support:recyclerview-v7:23.0.0'
     compile 'com.facebook.fresco:fresco:0.5.3'
     compile 'com.mcxiaoke.volley:library:1.0.17'

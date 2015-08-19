@@ -13,7 +13,7 @@ public class NewsDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_news_detail);
 
         Intent intent = getIntent();
         Bundle bundle = new Bundle();

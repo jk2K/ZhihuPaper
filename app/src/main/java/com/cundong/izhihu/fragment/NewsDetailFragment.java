@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,9 +18,6 @@ import com.cundong.izhihu.R;
 import com.cundong.izhihu.ZhihuApplication;
 import com.cundong.izhihu.model.NewsDetailModel;
 import com.cundong.izhihu.model.RealmJsonData;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -35,7 +33,7 @@ import io.realm.RealmResults;
  * Created by lee on 15/8/4.
  */
 public class NewsDetailFragment extends Fragment {
-    private ObservableWebView mWebView;
+    private WebView mWebView;
     private long mNewsId;
     private Realm realm;
 
@@ -52,35 +50,22 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        mWebView = (ObservableWebView) rootView.findViewById(R.id.webView);
-        mWebView.setScrollViewCallbacks(new ObservableScrollViewCallbacks() {
-            @Override
-            public void onScrollChanged(int i, boolean b, boolean b1) {
-            }
-
-            @Override
-            public void onDownMotionEvent() {
-            }
-
-            @Override
-            public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-                ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-                if (ab == null) {
-                    return;
-                }
-                if (scrollState == ScrollState.UP) {
-                    if (ab.isShowing()) {
-                        // 隐藏 AppBar
-                        ab.hide();
-                    }
-                } else if (scrollState == ScrollState.DOWN) {
-                    if (!ab.isShowing()) {
-                        // 显示 AppBar
-                        ab.show();
-                    }
-                }
-            }
-        });
+        mWebView = (WebView) rootView.findViewById(R.id.webView);
+//                ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//                if (ab == null) {
+//                    return;
+//                }
+//                if (scrollState == ScrollState.UP) {
+//                    if (ab.isShowing()) {
+//                        // 隐藏 AppBar
+//                        ab.hide();
+//                    }
+//                } else if (scrollState == ScrollState.DOWN) {
+//                    if (!ab.isShowing()) {
+//                        // 显示 AppBar
+//                        ab.show();
+//                    }
+//                }
 
         return rootView;
     }
