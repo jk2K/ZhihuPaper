@@ -20,6 +20,9 @@ import com.cundong.izhihu.R;
  * Created by lee on 15/7/21.
  */
 public class SettingActivity extends AppCompatActivity {
+    public static final String KEY_PREF_SPLASH_AUTHOR = "splashAuthor";
+    public static final String KEY_PREF_SPLASH_IMAGE = "splashImage";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

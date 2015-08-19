@@ -8,6 +8,9 @@ public final class Constants {
 	public static final String PROJECT_URL = "https://github.com/jk2K/ZhihuPaper";
 	
 	public static final class Url {
+        // 启动页图片
+        public static final String URL_SPLASH = "http://news-at.zhihu.com/api/4/start-image/1080*1776";
+
 		// 分享链接
 		public static final String URL_SHARE = "http://daily.zhihu.com/story/";
 
