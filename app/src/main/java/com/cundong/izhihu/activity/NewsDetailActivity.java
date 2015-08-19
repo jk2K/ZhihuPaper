@@ -2,17 +2,18 @@ package com.cundong.izhihu.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
+import com.cundong.izhihu.R;
 import com.cundong.izhihu.fragment.NewsDetailFragment;
 
 /**
  * Created by lee on 15/8/4.
  */
-public class NewsDetailActivity extends AppCompatActivity{
+public class NewsDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
@@ -22,7 +23,9 @@ public class NewsDetailActivity extends AppCompatActivity{
         newsDetailFragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, newsDetailFragment)
+                .replace(R.id.container, newsDetailFragment)
                 .commit();
+
+        super.setupToolbar();
     }
 }
