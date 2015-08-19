@@ -51,21 +51,6 @@ public class NewsDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         mWebView = (WebView) rootView.findViewById(R.id.webView);
-//                ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-//                if (ab == null) {
-//                    return;
-//                }
-//                if (scrollState == ScrollState.UP) {
-//                    if (ab.isShowing()) {
-//                        // 隐藏 AppBar
-//                        ab.hide();
-//                    }
-//                } else if (scrollState == ScrollState.DOWN) {
-//                    if (!ab.isShowing()) {
-//                        // 显示 AppBar
-//                        ab.show();
-//                    }
-//                }
 
         return rootView;
     }

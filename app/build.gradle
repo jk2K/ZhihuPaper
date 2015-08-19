@@ -10,14 +10,6 @@ android {
         targetSdkVersion 23
     }
 
-    sourceSets {
-        main {
-            java {
-                exclude '**/FavoriteActivity.java'
-            }
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled true
