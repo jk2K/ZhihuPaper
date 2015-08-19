@@ -6,10 +6,6 @@
         app:showAsAction="never"
         android:title="@string/night_mode"/>
     <item
-        android:id="@+id/action_favorite"
-        app:showAsAction="never"
-        android:title="@string/favorites"/>
-    <item
         android:id="@+id/action_setting"
         app:showAsAction="never"
         android:title="@string/preferences"/>

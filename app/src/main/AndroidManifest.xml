@@ -4,8 +4,6 @@
     android:versionName="2.3.8">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -13,6 +11,7 @@
     <application
         android:name=".ZhihuApplication"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Daily.Light">
@@ -38,66 +37,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name">
         </activity>
-        <!--<activity-->
-        <!--android:name=".activity.NewsDetailActivityOld"-->
-        <!--android:alwaysRetainTaskState="true"-->
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-        <!--android:label="@string/app_name" >-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.VIEW" />-->
-
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
-        <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-        <!--<data-->
-        <!--android:host="daily.zhihu.com"-->
-        <!--android:pathPattern="/story/.*"-->
-        <!--android:scheme="http" />-->
-        <!--<data-->
-        <!--android:host="story"-->
-        <!--android:pathPattern="/.*"-->
-        <!--android:scheme="zhihudaily" />-->
-        <!--<data-->
-        <!--android:host="section"-->
-        <!--android:pathPattern="/.*"-->
-        <!--android:scheme="zhihudaily" />-->
-        <!--<data-->
-        <!--android:host="theme"-->
-        <!--android:pathPattern="/.*"-->
-        <!--android:scheme="zhihudaily" />-->
-        <!--<data-->
-        <!--android:host="editor"-->
-        <!--android:pathPattern="/.*"-->
-        <!--android:scheme="zhihudaily" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
-        <!--<activity-->
-        <!--android:name=".activity.NewsDetailImageActivity"-->
-        <!--android:alwaysRetainTaskState="true"-->
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-        <!--android:label="@string/app_name" />-->
-        <!--<activity-->
-        <!--android:name=".activity.FavoriteActivity"-->
-        <!--android:alwaysRetainTaskState="true"-->
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-        <!--android:label="@string/app_name" />-->
-        <!--<activity-->
-        <!--android:name=".activity.PrefsActivity"-->
-        <!--android:alwaysRetainTaskState="true"-->
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-        <!--android:label="@string/app_name" />-->
-        <!--<activity-->
-        <!--android:name=".activity.OtherPrefsActivity"-->
-        <!--android:alwaysRetainTaskState="true"-->
-        <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
-        <!--android:label="@string/app_name" />-->
-
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="543c987afd98c536ba00c920" />
+            android:value="55d41a31e0f55a92d5001c12" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="360" />
+            android:value="WanDouJia" />
     </application>
 
 </manifest>

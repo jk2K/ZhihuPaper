@@ -46,9 +46,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_favorite:
-//                startActivity(new Intent(this, FavoriteActivity.class));
-                return true;
             case R.id.action_setting:
                 startActivity(new Intent(this, SettingActivity.class));
                 return true;

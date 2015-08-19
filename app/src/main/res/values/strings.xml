@@ -3,8 +3,9 @@
     <string name="app_name">新奇日报</string>
     <string name="app_sub_name">总有未知在身边</string>
 
+    <string name="share">分享</string>
+
 	<string name="night_mode">夜间模式</string>
-	<string name="favorites">收藏夹</string>
 	<string name="preferences">设置</string>
 
 	<string name="normal_preferences">常规</string>
@@ -16,19 +17,7 @@
     <string name="other_preferences">其他</string>
     <string name="about">关于我们</string>
 
-	<string name="actionbar_item_fav_cancel">取消收藏</string>
-	<string name="actionbar_item_fav_add">收藏</string>
-	
-	<string name="fav_add_success">添加收藏成功</string>
-	<string name="fav_add_fail">添加收藏失败</string>
-	
-	<string name="fav_cancel_success">已取消收藏</string>
-	
 	<string name="offline_download_doing">正在离线最新内容</string>
 	<string name="offline_download_done">离线最新内容完成</string>
 	<string name="offline_download_fail">离线最新内容失败</string>
-	
-	<string name="action_bar_share_with">Share with…</string>
-	
-	<string name="listview_hotnews">今日热闻</string>
 </resources>
