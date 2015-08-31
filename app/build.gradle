@@ -2,18 +2,22 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23"
+
+    packagingOptions {
+        exclude '.readme'
+    }
 
     defaultConfig {
         applicationId "com.cundong.izhihu"
         minSdkVersion 11
-        targetSdkVersion 23
+        targetSdkVersion 22
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
