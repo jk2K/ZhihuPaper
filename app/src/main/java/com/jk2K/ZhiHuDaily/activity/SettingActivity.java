@@ -1,4 +1,4 @@
-package com.cundong.izhihu.activity;
+package com.jk2K.ZhiHuDaily.activity;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.cundong.izhihu.Constants;
-import com.cundong.izhihu.R;
+import com.jk2K.ZhiHuDaily.Constants;
+import com.jk2K.ZhiHuDaily.R;
 
 /**
  * Created by lee on 15/7/21.

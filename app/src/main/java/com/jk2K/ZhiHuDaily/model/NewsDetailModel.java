@@ -1,4 +1,4 @@
-package com.cundong.izhihu.model;
+package com.jk2K.ZhiHuDaily.model;
 
 import java.util.List;
 

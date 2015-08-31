@@ -1,4 +1,4 @@
-package com.cundong.izhihu.adapter;
+package com.jk2K.ZhiHuDaily.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cundong.izhihu.R;
-import com.cundong.izhihu.activity.NewsDetailActivity;
-import com.cundong.izhihu.model.NewsList;
-import com.cundong.izhihu.model.NewsModel;
+import com.jk2K.ZhiHuDaily.R;
+import com.jk2K.ZhiHuDaily.activity.NewsDetailActivity;
+import com.jk2K.ZhiHuDaily.model.NewsList;
+import com.jk2K.ZhiHuDaily.model.NewsModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 /**

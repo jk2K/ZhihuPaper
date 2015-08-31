@@ -1,12 +1,12 @@
-package com.cundong.izhihu.activity;
+package com.jk2K.ZhiHuDaily.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.cundong.izhihu.R;
-import com.cundong.izhihu.fragment.NewsListFragment;
+import com.jk2K.ZhiHuDaily.R;
+import com.jk2K.ZhiHuDaily.fragment.NewsListFragment;
 
 /**
  * 类说明： 	主页面Activity

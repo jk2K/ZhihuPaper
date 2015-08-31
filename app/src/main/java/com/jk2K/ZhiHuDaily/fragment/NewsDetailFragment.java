@@ -1,4 +1,4 @@
-package com.cundong.izhihu.fragment;
+package com.jk2K.ZhiHuDaily.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -11,11 +11,11 @@ import android.webkit.WebView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.cundong.izhihu.Constants;
-import com.cundong.izhihu.R;
-import com.cundong.izhihu.ZhihuApplication;
-import com.cundong.izhihu.model.NewsDetailModel;
-import com.cundong.izhihu.model.RealmJsonData;
+import com.jk2K.ZhiHuDaily.Constants;
+import com.jk2K.ZhiHuDaily.R;
+import com.jk2K.ZhiHuDaily.ZhiHuApplication;
+import com.jk2K.ZhiHuDaily.model.NewsDetailModel;
+import com.jk2K.ZhiHuDaily.model.RealmJsonData;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -94,7 +94,7 @@ public class NewsDetailFragment extends Fragment {
                         }
                     }
             );
-            ZhihuApplication.getInstance().getRequestQueue().add(request);
+            ZhiHuApplication.getInstance().getRequestQueue().add(request);
         } else {
             // 有缓存
             setWebView(result.get(0).getJsonString());

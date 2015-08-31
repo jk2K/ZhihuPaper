@@ -1,4 +1,4 @@
-package com.cundong.izhihu;
+package com.jk2K.ZhiHuDaily;
 
 import android.app.Application;
 
@@ -6,9 +6,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-public class ZhihuApplication extends Application {
+public class ZhiHuApplication extends Application {
 
-    private static ZhihuApplication sInstance;
+    private static ZhiHuApplication sInstance;
     private RequestQueue mRequestQueue;
 
     @Override
@@ -21,7 +21,7 @@ public class ZhihuApplication extends Application {
         sInstance = this;
     }
 
-    public static synchronized ZhihuApplication getInstance() {
+    public static synchronized ZhiHuApplication getInstance() {
         return sInstance;
     }
 

@@ -1,4 +1,4 @@
-package com.cundong.izhihu;
+package com.jk2K.ZhiHuDaily;
 
 public final class Constants {
 	

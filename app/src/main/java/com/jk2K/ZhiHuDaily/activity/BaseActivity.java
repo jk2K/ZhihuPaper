@@ -1,9 +1,9 @@
-package com.cundong.izhihu.activity;
+package com.jk2K.ZhiHuDaily.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.cundong.izhihu.R;
+import com.jk2K.ZhiHuDaily.R;
 import com.umeng.analytics.MobclickAgent;
 
 /**

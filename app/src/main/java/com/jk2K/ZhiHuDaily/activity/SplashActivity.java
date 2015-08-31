@@ -1,4 +1,4 @@
-package com.cundong.izhihu.activity;
+package com.jk2K.ZhiHuDaily.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.cundong.izhihu.Constants;
-import com.cundong.izhihu.R;
-import com.cundong.izhihu.ZhihuApplication;
+import com.jk2K.ZhiHuDaily.Constants;
+import com.jk2K.ZhiHuDaily.R;
+import com.jk2K.ZhiHuDaily.ZhiHuApplication;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.json.JSONException;
@@ -112,7 +112,7 @@ public class SplashActivity extends FragmentActivity {
                     }
                 }
         );
-        ZhihuApplication.getInstance().getRequestQueue().add(request);
+        ZhiHuApplication.getInstance().getRequestQueue().add(request);
 
         // 进入首页
         Intent intent = new Intent(this, MainActivity.class);

@@ -1,4 +1,4 @@
-package com.cundong.izhihu.activity;
+package com.jk2K.ZhiHuDaily.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.cundong.izhihu.Constants;
-import com.cundong.izhihu.R;
-import com.cundong.izhihu.fragment.NewsDetailFragment;
+import com.jk2K.ZhiHuDaily.Constants;
+import com.jk2K.ZhiHuDaily.R;
+import com.jk2K.ZhiHuDaily.fragment.NewsDetailFragment;
 
 /**
  * Created by lee on 15/8/4.

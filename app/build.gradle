@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.cundong.izhihu"
+        applicationId "com.jk2K.ZhiHuDaily"
         minSdkVersion 11
         targetSdkVersion 22
     }
